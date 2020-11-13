@@ -7,12 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="soft-news-model" />
+        <module name="soft-news-api" />
         <module name="soft-news-common" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="soft-news-api" options="-parameters" />
       <module name="soft-news-common" options="-parameters" />
       <module name="soft-news-model" options="-parameters" />
     </option>
