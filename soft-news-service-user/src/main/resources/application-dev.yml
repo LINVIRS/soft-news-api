@@ -6,3 +6,6 @@ spring:
     host: 127.0.0.1
     port: 6379
     password:
+  # 设置域名，在 java 代码中获取
+website:
+    domain-name: activate.navicat.com

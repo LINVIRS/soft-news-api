@@ -1,11 +1,21 @@
 package com.soft1851.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Table(name = "app_user")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AppUser {
     @Id
     private String id;
