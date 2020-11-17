@@ -1,8 +1,10 @@
 package com.soft1851.user.controller;
 
 import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.soft1851.api.BaseController;
 import com.soft1851.api.user.UserControllerApi;
 import com.soft1851.pojo.AppUser;
+import com.soft1851.pojo.bo.UpdateUserInfoBO;
 import com.soft1851.pojo.vo.UserAccountInfoVo;
 import com.soft1851.result.GraceResult;
 import com.soft1851.result.ResponseStatusEnum;
@@ -10,18 +12,22 @@ import com.soft1851.user.mapper.AppUserMapper;
 import com.soft1851.user.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.boot.context.properties.bind.BindResult;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import javax.naming.Binding;
+import java.util.Map;
 
 /**
  * @ClassName: UserController @Description: TODO @Author: WangLinLIN @Date:
  * 2020/11/14 19:27:53  @Version: V1.0
  */
 @RestController
-public class UserController implements UserControllerApi {
+public class UserController extends BaseController implements UserControllerApi {
   @Resource private AppUserMapper appUserMapper;
   @Resource private UserService userService;
 
@@ -42,6 +48,17 @@ public class UserController implements UserControllerApi {
     // 属性拷贝
     BeanUtils.copyProperties(user, accountInfoVo);
     return GraceResult.ok(accountInfoVo);
+  }
+
+  @Override
+  public GraceResult updateUserInfo(UpdateUserInfoBO updateUserInfoBO, BindingResult result) {
+    // 判断bindResult 是否保存验证信息 如果有直接return
+    if (result.hasErrors()) {
+      Map<String, String> errorMap = getErrors(result);
+      return GraceResult.errorMap(errorMap);
+    }
+    userService.updateUserInfo(updateUserInfoBO);
+    return GraceResult.ok();
   }
 
   private AppUser getUser(String userId) {
