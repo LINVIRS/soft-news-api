@@ -82,7 +82,7 @@ public class UserController extends BaseController implements UserControllerApi 
   private AppUser getUser(String userId) {
     String userJson = redis.get(REDIS_USER_INFO + ":" + userId);
     AppUser user;
-    if (StringUtils.isBlank(userJson)) {
+    if (StringUtils.isNotBlank(userJson)) {
       user = JsonUtil.jsonToPojo(userJson, AppUser.class);
     } else {
       user = userService.getUser(userId);

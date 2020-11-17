@@ -77,20 +77,32 @@ public class UserViceImpl implements UserService {
         return appUserMapper.selectByPrimaryKey(userId);
     }
 
-    @Override
     @Transactional(rollbackFor = Exception.class)
+    @Override
     public void updateUserInfo(UpdateUserInfoBO updateUserInfoBO) {
+        String userId = updateUserInfoBO.getId();
+        // 保证双写一致， 先删除redis,后更新数据库
+        redis.del(REDIS_USER_INFO + ":" + userId);
+
         AppUser userInfo = new AppUser();
-        BeanUtils.copyProperties(updateUserInfoBO,userInfo);
+        BeanUtils.copyProperties(updateUserInfoBO, userInfo);
+
         userInfo.setUpdatedTime(new Date());
         userInfo.setActiveStatus(UserStatus.ACTIVE.type);
-        int result=appUserMapper.updateByPrimaryKeySelective(userInfo);
-        if (result!=1){
+
+        int result = appUserMapper.updateByPrimaryKeySelective(userInfo);
+        if (result != 1) {
             GraceException.display(ResponseStatusEnum.USER_UPDATE_ERROR);
         }
-        String userId =updateUserInfoBO.getId();
-        //查询用户信息
         AppUser user = getUser(userId);
-        redis.set(REDIS_USER_INFO+":"+userId, JsonUtil.objectToJson(user));
+        redis.set(REDIS_USER_INFO + ":" + userId, JsonUtil.objectToJson(user));
+
+        // 缓存双删策略
+        try {
+            Thread.sleep(100);
+            redis.del(REDIS_USER_INFO + ":" + userId);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
