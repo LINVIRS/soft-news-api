@@ -26,4 +26,10 @@ public interface UserService {
      * @return
      */
     AppUser createUser(String mobile);
-}
+
+    /**
+     * 根据用户主机获取用户信息
+     * @param userId
+     * @return
+     */
+    public  AppUser getUser(String userId);}
