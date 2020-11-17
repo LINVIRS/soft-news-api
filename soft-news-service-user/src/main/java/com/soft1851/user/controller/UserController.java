@@ -5,14 +5,17 @@ import com.soft1851.api.BaseController;
 import com.soft1851.api.user.UserControllerApi;
 import com.soft1851.pojo.AppUser;
 import com.soft1851.pojo.bo.UpdateUserInfoBO;
+import com.soft1851.pojo.vo.AppUserVO;
 import com.soft1851.pojo.vo.UserAccountInfoVo;
 import com.soft1851.result.GraceResult;
 import com.soft1851.result.ResponseStatusEnum;
 import com.soft1851.user.mapper.AppUserMapper;
 import com.soft1851.user.service.UserService;
+import com.soft1851.utils.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.context.properties.bind.BindResult;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +54,7 @@ public class UserController extends BaseController implements UserControllerApi 
   }
 
   @Override
+
   public GraceResult updateUserInfo(UpdateUserInfoBO updateUserInfoBO, BindingResult result) {
     // 判断bindResult 是否保存验证信息 如果有直接return
     if (result.hasErrors()) {
@@ -61,7 +65,29 @@ public class UserController extends BaseController implements UserControllerApi 
     return GraceResult.ok();
   }
 
+  @Override
+  public GraceResult getUserBasicInfo(String userId) {
+    // 判断不能为空
+    if (StringUtils.isBlank(userId)) {
+      return GraceResult.errorCustom(ResponseStatusEnum.UN_LOGIN);
+    }
+    // 查询用户id
+    AppUser user = getUser(userId);
+    // 信息脱敏
+    AppUserVO appUserVO = new AppUserVO();
+    BeanUtils.copyProperties(user, appUserVO);
+    return GraceResult.ok(appUserVO);
+  }
+
   private AppUser getUser(String userId) {
-    return userService.getUser(userId);
+    String userJson = redis.get(REDIS_USER_INFO + ":" + userId);
+    AppUser user;
+    if (StringUtils.isBlank(userJson)) {
+      user = JsonUtil.jsonToPojo(userJson, AppUser.class);
+    } else {
+      user = userService.getUser(userId);
+      redis.set(REDIS_USER_INFO + ":" + userId, JsonUtil.objectToJson(user), 1);
+    }
+    return user;
   }
 }

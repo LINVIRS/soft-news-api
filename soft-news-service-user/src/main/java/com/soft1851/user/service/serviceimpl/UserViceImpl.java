@@ -9,6 +9,7 @@ import com.soft1851.user.mapper.AppUserMapper;
 import com.soft1851.user.service.UserService;
 import com.soft1851.utils.DateUtil;
 import com.soft1851.utils.DesensitizationUtil;
+import com.soft1851.utils.JsonUtil;
 import com.soft1851.utils.RedisOperator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -87,5 +88,9 @@ public class UserViceImpl implements UserService {
         if (result!=1){
             GraceException.display(ResponseStatusEnum.USER_UPDATE_ERROR);
         }
+        String userId =updateUserInfoBO.getId();
+        //查询用户信息
+        AppUser user = getUser(userId);
+        redis.set(REDIS_USER_INFO+":"+userId, JsonUtil.objectToJson(user));
     }
 }
