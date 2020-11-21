@@ -1,8 +1,7 @@
 package com.soft1851.api.config;
 
 
-import com.soft1851.api.intercepter.PassportInterceptor;
-import com.soft1851.api.intercepter.UserTokenInterceptor;
+import com.soft1851.api.intercepter.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -24,14 +23,34 @@ public class InterceptorConfig implements WebMvcConfigurer {
 public UserTokenInterceptor userTokenInterceptor(){
         return new UserTokenInterceptor();
 }
+    @Bean
+    public UserActiveInterceptor userActiveInterceptor(){
+        return  new UserActiveInterceptor();
+    }
+    @Bean
+    public UploadFileInterceptor uploadFileInterceptor(){
+        return new UploadFileInterceptor();
+    }
+        @Bean
+    public AdminTokenInterceptor adminTokenInterceptor() {
+        return new AdminTokenInterceptor();
+    }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        注册拦截器，添加拦截路由
         registry.addInterceptor(passportInterceptor())
                 .addPathPatterns("/passport/smsCode");
+//        对有些接口拦截未带token以及userId的请求
         registry.addInterceptor(userTokenInterceptor())
-                .addPathPatterns("/user/")
-                .excludePathPatterns("/user/updateUserInfo");
-        registry.addInterceptor(userTokenInterceptor()).addPathPatterns("/fans/follow");
+                .addPathPatterns("/user/userBasicInfo")
+                .addPathPatterns("/user/updateUserInfo");
+//        拦截所有请求
+        registry.addInterceptor(userActiveInterceptor())
+                .addPathPatterns("/user/fans/follow");
+        registry.addInterceptor(uploadFileInterceptor())
+                .addPathPatterns("/fs/uploadFace")
+                .addPathPatterns("/fs/uploadSomeFiles");
+        registry.addInterceptor(adminTokenInterceptor())
+                .addPathPatterns("/adminMsg/adminIsExist");
     }
 }
