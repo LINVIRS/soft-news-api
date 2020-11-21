@@ -10,5 +10,11 @@
         <property name="serverTimezone" value="Asia/Shanghai" />
       </driver-properties>
     </data-source>
+    <data-source source="LOCAL" name="MongoDB - @121.196.154.56" uuid="edb0aa23-aa27-4aab-8620-466c4fb5bcaf">
+      <driver-ref>mongo</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
+      <jdbc-url>mongodb://121.196.154.56:27017/soft_news</jdbc-url>
+    </data-source>
   </component>
 </project>
