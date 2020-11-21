@@ -5,10 +5,8 @@ import com.soft1851.result.GraceResult;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.apache.http.HttpResponse;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +37,7 @@ public interface FileUploadControllerApi {
 
   /**
    * 文件上传到mogodb的GridFS中
+   *
    * @param newAdminBO
    * @param request
    * @param response
@@ -49,5 +48,17 @@ public interface FileUploadControllerApi {
   @PostMapping("uploadToGridFS")
   GraceResult uploadToGridFS(
       @RequestBody NewAdminBO newAdminBO, HttpServletRequest request, HttpServletResponse response)
+      throws Exception;
+
+  /**
+   * 读取文件
+   * @param faceId
+   * @param request
+   * @param response
+   * @throws Exception
+   */
+  @ApiOperation(value = "从gridsFs中读取文件", notes = "从gridFS中读取文件", httpMethod = "GET")
+  @GetMapping("readInGridFs")
+  void readInGridFs(@RequestParam("faceId") String faceId, HttpServletRequest request, HttpServletResponse response)
       throws Exception;
 }
