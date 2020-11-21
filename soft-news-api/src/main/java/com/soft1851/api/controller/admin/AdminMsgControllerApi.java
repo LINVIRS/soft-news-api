@@ -15,58 +15,73 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @ClassName: ads
- * @Description: TODO
- * @Author: WangLinLIN
- * @Date: 2020/11/21 15:06:19 
- * @Version: V1.0
- **/
-@Api(value = "管理员维护",tags = {"管理员维护controller"})
+ * @ClassName: ads @Description: TODO @Author: WangLinLIN @Date: 2020/11/21 15:06:19  @Version: V1.0
+ */
+@Api(
+    value = "管理员维护",
+    tags = {"管理员维护controller"})
 @RequestMapping("adminMsg")
 public interface AdminMsgControllerApi {
-    /**
-     * 管理员登录
-     * @param adminLoginBO
-     * @param request
-     * @param response
-     * @return
-     */
-    @PostMapping("adminLogin")
-    @ApiOperation(value = "管理员登录",notes = "管理员登录",httpMethod = "POST")
-    GraceResult adminLogin(@RequestBody AdminLoginBO adminLoginBO,
-                           HttpServletRequest request,
-                           HttpServletResponse response);
+  /**
+   * 管理员登录
+   *
+   * @param adminLoginBO
+   * @param request
+   * @param response
+   * @return
+   */
+  @PostMapping("adminLogin")
+  @ApiOperation(value = "管理员登录", notes = "管理员登录", httpMethod = "POST")
+  GraceResult adminLogin(
+      @RequestBody AdminLoginBO adminLoginBO,
+      HttpServletRequest request,
+      HttpServletResponse response);
 
-    /**
-     * 查询管理员是否存在
-     * @param username
-     * @return
-     */
-    @PostMapping("adminIsExist")
-    @ApiOperation(value = "查询管理员是否存在",notes = "查询管理人员是否存在",httpMethod = "POST")
-    GraceResult adminIsExist(@RequestParam String username);
+  /**
+   * 查询管理员是否存在
+   *
+   * @param username
+   * @return
+   */
+  @PostMapping("adminIsExist")
+  @ApiOperation(value = "查询管理员是否存在", notes = "查询管理人员是否存在", httpMethod = "POST")
+  GraceResult adminIsExist(@RequestParam String username);
 
-    /**
-     * 新增管理员
-     * @param request
-     * @param response
-     * @param newAdminBO
-     * @return
-     */
-    @PostMapping("addNewAdmin")
-    @ApiOperation(value = "添加新的管理人员",notes = "添加新的管理人员",httpMethod = "POST")
-    GraceResult addNewAdmin(HttpServletRequest request, HttpServletResponse response, @RequestBody NewAdminBO newAdminBO);
-    /**
-     * 分页查询管理员
-     * @param page
-     * @param pageSize
-     * @return
-     */
-    @ApiOperation(value = "查询admin列表",notes = "查询admin列表",httpMethod = "POST")
-    @PostMapping("/getAdminList")
-    GraceResult getAdminList(@ApiParam(name = "page",value = "查询下一页的第几页")
-                             @RequestParam Integer page,
-                             @ApiParam(name = "pageSize",value = "分页查询每一页的条数")
-                             @RequestParam Integer pageSize);
+  /**
+   * 新增管理员
+   *
+   * @param request
+   * @param response
+   * @param newAdminBO
+   * @return
+   */
+  @PostMapping("addNewAdmin")
+  @ApiOperation(value = "添加新的管理人员", notes = "添加新的管理人员", httpMethod = "POST")
+  GraceResult addNewAdmin(
+      HttpServletRequest request, HttpServletResponse response, @RequestBody NewAdminBO newAdminBO);
+  /**
+   * 分页查询管理员
+   *
+   * @param page
+   * @param pageSize
+   * @return
+   */
+  @ApiOperation(value = "查询admin列表", notes = "查询admin列表", httpMethod = "POST")
+  @PostMapping("/getAdminList")
+  GraceResult getAdminList(
+      @ApiParam(name = "page", value = "查询下一页的第几页") @RequestParam Integer page,
+      @ApiParam(name = "pageSize", value = "分页查询每一页的条数") @RequestParam Integer pageSize);
 
+  /**
+   * 退出登录
+   *
+   * @param adminId
+   * @param request
+   * @param response
+   * @return
+   */
+  @PostMapping("adminLogOut")
+  @ApiOperation(value = "管理员注销", notes = "管理员注销", httpMethod = "POST")
+  GraceResult adminLogout(
+      @RequestParam String adminId, HttpServletRequest request, HttpServletResponse response);
 }
