@@ -1,15 +1,12 @@
-package com.soft1851.api.user;
+package com.soft1851.api.controller.user;
 
 import com.soft1851.pojo.bo.UpdateUserInfoBO;
 import com.soft1851.result.GraceResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.naming.Binding;
 
 /**
  * @ClassName: UserControllerApi @Description: TODO @Author: WangLinLIN @Date:

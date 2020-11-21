@@ -1,10 +1,9 @@
-package com.soft1851.api.user;
+package com.soft1851.api.controller.user;
 
 import com.soft1851.pojo.bo.RegistLoginBO;
 import com.soft1851.result.GraceResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.bouncycastle.crypto.modes.gcm.GCMExponentiator;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 

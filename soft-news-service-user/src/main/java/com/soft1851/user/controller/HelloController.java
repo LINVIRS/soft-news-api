@@ -1,6 +1,6 @@
 package com.soft1851.user.controller;
 
-import com.soft1851.api.user.HelloControllerApi;
+import com.soft1851.api.controller.user.HelloControllerApi;
 import com.soft1851.result.GraceResult;
 import com.soft1851.utils.RedisOperator;
 import lombok.extern.slf4j.Slf4j;

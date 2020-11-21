@@ -1,7 +1,7 @@
 package com.soft1851.user.controller;
 
 import com.soft1851.api.BaseController;
-import com.soft1851.api.user.PassportControllerApi;
+import com.soft1851.api.controller.user.PassportControllerApi;
 import com.soft1851.enums.UserStatus;
 import com.soft1851.pojo.AppUser;
 import com.soft1851.pojo.bo.RegistLoginBO;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

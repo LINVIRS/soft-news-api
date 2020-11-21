@@ -1,8 +1,7 @@
 package com.soft1851.user.controller;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.soft1851.api.BaseController;
-import com.soft1851.api.user.UserControllerApi;
+import com.soft1851.api.controller.user.UserControllerApi;
 import com.soft1851.pojo.AppUser;
 import com.soft1851.pojo.bo.UpdateUserInfoBO;
 import com.soft1851.pojo.vo.AppUserVO;
@@ -14,15 +13,10 @@ import com.soft1851.user.service.UserService;
 import com.soft1851.utils.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.context.properties.bind.BindResult;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
-import javax.naming.Binding;
 import java.util.Map;
 
 /**
