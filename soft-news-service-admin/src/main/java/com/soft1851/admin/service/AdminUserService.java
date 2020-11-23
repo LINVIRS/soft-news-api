@@ -31,4 +31,11 @@ public interface AdminUserService {
      * @return
      */
     PageGridResult queryAdminList(Integer page, Integer pageSize);
+
+    /**
+     * 修改指定管理员faceId
+     * @param username
+     * @param faceId
+     */
+    void  updateAdmin (String username ,String faceId);
 }

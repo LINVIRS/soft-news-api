@@ -38,20 +38,16 @@ public interface FileUploadControllerApi {
   /**
    * 文件上传到mogodb的GridFS中
    *
-   * @param newAdminBO
-   * @param request
-   * @param response
    * @return
    * @throws Exception
    */
   @ApiOperation(value = "上传到mongodb的Grids", notes = "上传到mongodb的GridFS", httpMethod = "POST")
   @PostMapping("uploadToGridFS")
-  GraceResult uploadToGridFS(
-      @RequestBody NewAdminBO newAdminBO, HttpServletRequest request, HttpServletResponse response)
-      throws Exception;
+  public GraceResult uploadToGridFS(String username, MultipartFile multipartFile) throws Exception;
 
   /**
    * 读取文件
+   *
    * @param faceId
    * @param request
    * @param response
@@ -59,6 +55,22 @@ public interface FileUploadControllerApi {
    */
   @ApiOperation(value = "从gridsFs中读取文件", notes = "从gridFS中读取文件", httpMethod = "GET")
   @GetMapping("readInGridFs")
-  void readInGridFs(@RequestParam("faceId") String faceId, HttpServletRequest request, HttpServletResponse response)
+  void readInGridFs(
+      @RequestParam("faceId") String faceId,
+      HttpServletRequest request,
+      HttpServletResponse response)
+      throws Exception;
+
+  /**
+   * 从grids中读取图片内容 并且返回base64
+   * @param faceId
+   * @param request
+   * @param response
+   * @return
+   * @throws Exception
+   */
+  @GetMapping("readFace64")
+  GraceResult readFace64(
+      @RequestParam String faceId, HttpServletRequest request, HttpServletResponse response)
       throws Exception;
 }

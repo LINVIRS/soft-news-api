@@ -37,11 +37,9 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   data:
-    mongodb:
-      uri: mongodb://root@121.196.154.56:27017
+   mongodb:
+      uri: mongodb://root:root@121.196.154.56:27017
       database: soft_news
-      password: root
-      username: root
 ############################################################
 #
 # mybatis 配置
