@@ -159,7 +159,7 @@ public class AdminMsgController extends BaseController implements AdminMsgContro
         String base64 = (String) bodyResult.getData();
         // 3. 调用阿里ai进行人脸对比识别，判断可信度，从而实现人脸登录
         boolean result = faceVerifyUtil.faceVerify(FaceVerifyType.BASE64.type, tempFace64, base64, 60);
-        if (result) {
+        if (!result) {
             return GraceResult.errorCustom(ResponseStatusEnum.ADMIN_FACE_LOGIN_ERROR);
         }
         // 4. admin登录后的数据设置，redis与cookie

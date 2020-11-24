@@ -152,8 +152,8 @@ public class Demo_face_verify {
 
     public static void main(String[] args) throws Exception {
         // 发送POST请求示例
-        String ak_id = ""; //用户ak
-        String ak_secret = ""; // 用户ak_secret
+        String ak_id = "LTAI4GFiuF7rtE1Bv4gJja6S"; //用户ak
+        String ak_secret = "nR50f1qVqBMUFe6kNTUAY7jBuxhUGW"; // 用户ak_secret
         String url = "https://dtplus-cn-shanghai.data.aliyuncs.com/face/verify"; //参考：https://face.data.aliyun.com/console
         String body = "{type\":0,\"image_url_1\":\"http://e.hiphotos.baidu.com/image/pic/item/dbb44aed2e738bd4d78823fba88b87d6267ff94b.jpg\",\"image_url_2\":\"http://e.hiphotos.baidu.com/image/pic/item/dbb44aed2e738bd4d78823fba88b87d6267ff94b.jpg\"}";//参考：https://help.aliyun.com/knowledge_detail/53520.html?spm=5176.7753399.6.553.i4Hm7s";
         System.out.println("response body:" + sendPost(url, body, ak_id, ak_secret));
