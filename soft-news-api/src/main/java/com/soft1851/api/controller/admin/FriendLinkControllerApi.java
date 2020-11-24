@@ -8,21 +8,29 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
 /**
- * @ClassName: dada
- * @Description: TODO
- * @Author: WangLinLIN
- * @Date: 2020/11/24 15:22:11 
- * @Version: V1.0
- **/
-@Api(value = "首页友链维护",tags = {"首页友链维护controller"})
+ * @ClassName: dada @Description: TODO @Author: WangLinLIN @Date: 2020/11/24 15:22:11  @Version:
+ * V1.0
+ */
+@Api(
+    value = "首页友链维护",
+    tags = {"首页友链维护controller"})
 @RequestMapping("friendLinkMng")
 public interface FriendLinkControllerApi {
-    @ApiOperation(value = "新增修改友链",notes = "新增修改友链",httpMethod = "POST")
-    @PostMapping("/saveOrUpdateFriendLink")
-    GraceResult saveOrUpdateFriendLink(
-            @RequestBody @Valid SaveFriendLinkBO saveFriendLinkBO, BindingResult result);
+  @ApiOperation(value = "新增修改友链", notes = "新增修改友链", httpMethod = "POST")
+  @PostMapping("/saveOrUpdateFriendLink")
+  GraceResult saveOrUpdateFriendLink(
+      @RequestBody @Valid SaveFriendLinkBO saveFriendLinkBO, BindingResult result);
+
+  @PostMapping("getFriendLinkList")
+  @ApiOperation(value = "查询友链列表", notes = "查询友链列表", httpMethod = "POST")
+  GraceResult getFriendLinkList();
+
+  @PostMapping("delete")
+  @ApiOperation(value = "删除友链", notes = "删除友链", httpMethod = "POST")
+  GraceResult delete(@RequestParam String linkId);
 }

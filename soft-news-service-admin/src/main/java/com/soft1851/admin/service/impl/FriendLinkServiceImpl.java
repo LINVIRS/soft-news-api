@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @ClassName: wqwe @Description: TODO @Author: WangLinLIN @Date: 2020/11/24 15:14:33  @Version:
  * V1.0
@@ -20,4 +22,13 @@ public class FriendLinkServiceImpl implements FriendLinkService {
   public void saveOrUpdateFriendLink(FriendLinkMO friendLinkMO) {
     friendLinkRepository.save(friendLinkMO);
   }
-    }
+
+  @Override
+  public List<FriendLinkMO> queryAllFriendLinkList() {
+    return friendLinkRepository.findAll();
+  }
+  @Override
+  public void delete(String linkId) {
+    friendLinkRepository.deleteById(linkId);
+  }
+}

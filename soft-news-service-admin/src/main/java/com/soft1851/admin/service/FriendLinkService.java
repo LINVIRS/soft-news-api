@@ -19,5 +19,15 @@ public interface FriendLinkService {
      */
     void saveOrUpdateFriendLink(FriendLinkMO friendLinkMO);
 
+    /**
+     * 查询 mogodb
+     * @return
+     */
+    List<FriendLinkMO> queryAllFriendLinkList();
 
+    /**
+     * 删除
+     * @param linkId
+     */
+    void delete(String linkId);
 }
