@@ -1,5 +1,6 @@
 package com.soft1851.article.service;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.soft1851.pojo.Category;
 import com.soft1851.pojo.bo.NewArticleBO;
 
@@ -16,7 +17,7 @@ public interface ArticleService {
      * @param newArticleBO
      * @param category
      */
-    void  createArticle(NewArticleBO newArticleBO, Category category);
+    void  createArticle(NewArticleBO newArticleBO, Category category) throws ClientException;
 
 
     /**

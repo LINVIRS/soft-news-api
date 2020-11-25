@@ -1,9 +1,11 @@
 package com.soft1851.article.service.impl;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.soft1851.article.mapper.ArticleMapper;
 import com.soft1851.article.mapper.ArticleMapperCustom;
 import com.soft1851.article.service.ArticleService;
 import com.soft1851.enums.ArticleAppointType;
+import com.soft1851.enums.ArticleReviewLevel;
 import com.soft1851.enums.ArticleReviewStatus;
 import com.soft1851.enums.YesOrNo;
 import com.soft1851.exception.GraceException;
@@ -11,7 +13,9 @@ import com.soft1851.pojo.Article;
 import com.soft1851.pojo.Category;
 import com.soft1851.pojo.bo.NewArticleBO;
 import com.soft1851.result.ResponseStatusEnum;
+import com.soft1851.utils.extend.AliTextReviewUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +33,15 @@ import java.util.Date;
  * @Version: V1.0
  **/
 @Service
+@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleMapper articleMapper;
     private final Sid sid;
     private final ArticleMapperCustom articleMapperCustom;
+    private final AliTextReviewUtil aliTextReviewUtil;
     @Override
-    public void createArticle(NewArticleBO newArticleBO, Category category) {
+    public void createArticle(NewArticleBO newArticleBO, Category category) throws ClientException {
         String articleId = sid.nextShort();
         Article article = new Article();
 
@@ -58,7 +64,26 @@ public class ArticleServiceImpl implements ArticleService {
             GraceException.display(ResponseStatusEnum.ARTICLE_CREATE_ERROR);
         }
         //后续通过阿里智能AI实现对文章文本的自动检测(自动审核)
+        //通过阿里智能AI实现对文章文本的自动检测(自动审核)
+        String reviewResult = aliTextReviewUtil.reviewTextContent(newArticleBO.getTitle()+newArticleBO.getContent());
+        log.info("审核结果"+reviewResult);
+        if (ArticleReviewLevel.PASS.type.equalsIgnoreCase(reviewResult)){
+            log.info("审核通过");
+            //修改文章状态为审核通过
+            this.updateArticleStatus(articleId,ArticleReviewStatus.SUCCESS.type);
+        }else if (ArticleReviewLevel.REVIEW.type.equalsIgnoreCase(reviewResult)){
+            log.info("需要人工复审");
+            //修改状态为：需要人工复审
+            this.updateArticleStatus(articleId,ArticleReviewStatus.WAITING_MANUAL.type);
+        }else if (ArticleReviewLevel.BLOCK.type.equalsIgnoreCase(reviewResult)){
+            log.info("审核不通过");
+            //修改状态为审核不通过
+            this.updateArticleStatus(articleId,ArticleReviewStatus.FAILED.type);
+        }
+
     }
+
+
 
 
     @Transactional(rollbackFor = {Exception.class})
