@@ -32,40 +32,40 @@ public class ArticleController extends BaseController implements ArticleControll
     private final ArticleService articleService;
     @Override
     public GraceResult createArticle(@Valid NewArticleBO newArticleBO, BindingResult result) {
-        //判断BindingResult是否保存错误的验证信息，如果有则直接return
-        if (result.hasErrors()){
-            Map<String,String> errorMap = getErrors(result);
+        System.out.println(newArticleBO);
+        System.out.println(result);
+        //判断BindingResult是否保存错误的验证信息,如果有，则直接return
+        if (result.hasErrors()) {
+            Map<String, String> errorMap = getErrors(result);
             return GraceResult.errorMap(errorMap);
         }
-        //判断文章封面类型，单图必填，纯文字设置为空
-        if (newArticleBO.getArticleType().equals(ArticleCoverType.ONE_IMAGE.type)){
-            if (StringUtils.isBlank(newArticleBO.getArticleCover())){
+        //判断文章封面类型，单图必填，纯文字则设置为空
+        if (newArticleBO.getArticleType().equals(ArticleCoverType.ONE_IMAGE.type)) {
+            if (StringUtils.isBlank(newArticleBO.getArticleCover())) {
                 return GraceResult.errorCustom(ResponseStatusEnum.ARTICLE_COVER_NOT_EXIST_ERROR);
             }
-
-        }else if (newArticleBO.getArticleType().equals(ArticleCoverType.WORDS.type)){
+        } else if (newArticleBO.getArticleType().equals(ArticleCoverType.WORDS.type)) {
             newArticleBO.setArticleCover("");
         }
         //判断分类id是否存在
         String allCatJson = redis.get(REDIS_ALL_CATEGORY);
         Category temp = null;
-        if (StringUtils.isBlank(allCatJson)){
+        if (StringUtils.isBlank(allCatJson)) {
             return GraceResult.errorCustom(ResponseStatusEnum.SYSTEM_OPERATION_ERROR);
-        }else {
-            List<Category> categories = JsonUtil.jsonToList(allCatJson,Category.class);
-            assert categories != null;
-            for (Category c:categories
-            ) {
-                if (c.getId().equals(newArticleBO.getCategoryId())){
-                    temp = c;
-                    break;
-                }
-            }
-            if (temp == null){
-                return GraceResult.errorCustom(ResponseStatusEnum.ARTICLE_CATEGORY_NOT_EXIST_ERROR);
+        }
+        List<Category> categoryList = JsonUtil.jsonToList(allCatJson, Category.class);
+        assert categoryList != null;
+        for (Category c : categoryList) {
+            if (c.getId().equals(newArticleBO.getCategoryId())) {
+                temp = c;
+                break;
             }
         }
-        articleService.createArticle(newArticleBO,temp);
+        if (temp == null) {
+            return GraceResult.errorCustom(ResponseStatusEnum.ARTICLE_CATEGORY_NOT_EXIST_ERROR);
+        }
+        System.out.println(newArticleBO.toString());
+        articleService.createArticle(newArticleBO, temp);
         return GraceResult.ok();
     }
 }

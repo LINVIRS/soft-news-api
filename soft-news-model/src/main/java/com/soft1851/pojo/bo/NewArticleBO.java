@@ -25,9 +25,9 @@ public class NewArticleBO {
     private String content;
     @NotNull(message = "请选择文章领域")
     private Integer categoryId;
-    @NotNull(message = "请选择正确的文章封面类型")
-    @Min(value = 1,message = "请选择正确的文章封面类型")
-    @Max(value = 2,message = "请选择正确的文章封面类型")
+    @NotNull(message = "请选择正确的文章类型")
+    @Min(value = 1,message = "请选择正确的文章类型")
+    @Max(value = 2,message = "请选择正确的文章类型")
     private Integer articleType;
 
     private String articleCover;
