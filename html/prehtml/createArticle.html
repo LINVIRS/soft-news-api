@@ -3,8 +3,8 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0"/>
-    <link rel="stylesheet" href="css/center.css"/>
-    <link rel="stylesheet" href="css/createArticle.css"/>
+    <link rel="stylesheet" href="../css/center.css"/>
+    <link rel="stylesheet" href="../css/createArticle.css"/>
     <style type="text/css"></style>
 
     <title>发文章</title>
@@ -14,7 +14,7 @@
     <!-- 顶部 -->
     <div id="whiteHeader" class="red-header">
         <div class="head_wrapper">
-            <img src="me.png" class="center-logo"/>
+            <img src="../me.png" class="center-logo"/>
             <div class="right-me-info">
                 <img :src="userInfo.face" class="me-face"/>
                 <span class="me-nickname">{{userInfo.nickname}}</span>
@@ -57,7 +57,7 @@
                 <div class="choose-cover"></div>
                 <div class="uploader-comp">
                     <div id="block-choose" class="block-choose" :style="coverStyle">
-                        <img src="img/icon-go-upload.png" style="width: 20px; height: 20px; align-self: center;"
+                        <img src="../img/icon-go-upload.png" style="width: 20px; height: 20px; align-self: center;"
                              v-show="articleCover == '' || articleCover == null"/>
                     </div>
                     <input type="file" @change="uploadCover" id="inputPic" class="inputPic"
@@ -81,16 +81,16 @@
 </body>
 <body>
 </body>
-<script src="libs/vue.min.js"></script>
-<script src="libs/axios.min.js"></script>
-<link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-<script src="libs/jquery-3.4.1.min.js"></script>
-<script src="libs/layDate-v5.0.9/laydate/laydate.js"></script>
-<script src="libs/bootstrap/js/bootstrap.min.js"></script>
-<link href="libs/summernote/dist/summernote.css" rel="stylesheet"/>
-<script src="libs/summernote/dist/summernote.js"></script>
+<script src="../libs/vue.min.js"></script>
+<script src="../libs/axios.min.js"></script>
+<link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="../libs/jquery-3.4.1.min.js"></script>
+<script src="../libs/layDate-v5.0.9/laydate/laydate.js"></script>
+<script src="../libs/bootstrap/js/bootstrap.min.js"></script>
+<link href="../libs/summernote/dist/summernote.css" rel="stylesheet"/>
+<script src="../libs/summernote/dist/summernote.js"></script>
 <!-- 中文汉化 -->
-<script src="libs/summernote/lang/summernote-zh-CN.js"></script>
+<script src="../libs/summernote/lang/summernote-zh-CN.js"></script>
 <script type="text/javascript">
     var articleList = new Vue({
         el: '#editor',
@@ -202,7 +202,32 @@
         },
         methods: {
             //预览文章
-            preview() {
+            preview(){
+                //把临时的文章数据写入到sessionStorage中
+                let articleTitle = this.articleTitle
+                if(this.isEmpty(articleTitle)){
+                    alert('文章标题不能为空')
+                    return false
+                }
+                //获得输入的内容
+                let articleContent = $('#summernote').summernote('code')
+                console.log(articleContent);
+                if(this.isEmpty(articleContent)){
+                    alert('文章内容不能为空')
+                    return false
+                }
+                if(articleContent.length > 9999){
+                    alert('文章内容不能超过10000个字')
+                    return false
+                }
+                let articleBO = {
+                    title: articleTitle,
+                    content: articleContent,
+                    publishUserId: this.userInfo.uid,
+                }
+                let articleBOStr = JSON.stringify(articleBO)
+                sessionStorage.setItem('previewArticleInfo',articleBOStr)
+                window.location.href = 'preview.html'
             },
             //获得所有文章类型
             getAllCategory() {
