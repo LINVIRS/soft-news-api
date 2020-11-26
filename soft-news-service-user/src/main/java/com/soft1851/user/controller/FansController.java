@@ -2,7 +2,9 @@ package com.soft1851.user.controller;
 
 import com.soft1851.api.BaseController;
 import com.soft1851.api.controller.user.FansControllerApi;
+import com.soft1851.enums.Sex;
 import com.soft1851.pojo.AppUser;
+import com.soft1851.pojo.vo.FansCountsVO;
 import com.soft1851.result.GraceResult;
 import com.soft1851.result.ResponseStatusEnum;
 import com.soft1851.user.service.FansService;
@@ -48,6 +50,20 @@ public class FansController extends BaseController implements FansControllerApi 
         }
         fansService.unfollow(writerId,fanId);
         return GraceResult.ok();
+    }
+    @Override
+    public GraceResult queryRatio(String writerId) {
+        int manCounts = fansService.queryFansCounts(writerId, Sex.man);
+        int womanCounts = fansService.queryFansCounts(writerId,Sex.woman);
+        FansCountsVO fansCountsVO = new FansCountsVO();
+        fansCountsVO.setManCounts(manCounts);
+        fansCountsVO.setWomanCounts(womanCounts);
+        return GraceResult.ok(fansCountsVO);
+    }
+
+    @Override
+    public GraceResult queryRatioByRegion(String writerId) {
+        return GraceResult.ok(fansService.queryRegionRatioCounts(writerId));
     }
     private boolean isUserExist(String writerId,String fanId){
         //判断不为空
