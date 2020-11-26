@@ -8,8 +8,8 @@ package com.soft1851.enums;
  * @Version: V1.0
  **/
 public enum Sex {
-    man(0),
-    woman(1);
+    man(1),
+    woman(0);
     public final Integer type;
 
     Sex(Integer type) {
