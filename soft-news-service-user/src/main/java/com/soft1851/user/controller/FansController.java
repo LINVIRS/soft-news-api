@@ -40,4 +40,23 @@ public class FansController extends BaseController implements FansControllerApi 
         fansService.follow(writerId,fanId);
         return GraceResult.ok();
     }
+
+    @Override
+    public GraceResult unfollow(String writerId, String fanId) {
+        if (!isUserExist(writerId,fanId)){
+            return GraceResult.errorCustom(ResponseStatusEnum.USER_NOT_EXIST_ERROR);
+        }
+        fansService.unfollow(writerId,fanId);
+        return GraceResult.ok();
+    }
+    private boolean isUserExist(String writerId,String fanId){
+        //判断不为空
+        AppUser writer = userService.getUser(writerId);
+        AppUser fan = userService.getUser(fanId);
+        if (writer == null || fan == null) {
+            return  false;
+        }
+        return true;
+    }
+
 }
