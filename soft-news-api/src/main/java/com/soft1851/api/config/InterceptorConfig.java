@@ -33,7 +33,12 @@ public UserTokenInterceptor userTokenInterceptor(){
     }
         @Bean
     public AdminTokenInterceptor adminTokenInterceptor() {
+
         return new AdminTokenInterceptor();
+    }
+    @Bean
+    public ArticleReadInterceptor articleReadInterceptor(){
+        return new ArticleReadInterceptor();
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
