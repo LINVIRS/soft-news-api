@@ -45,8 +45,8 @@ public UserTokenInterceptor userTokenInterceptor(){
                 .addPathPatterns("/user/userBasicInfo")
                 .addPathPatterns("/user/updateUserInfo");
 //        拦截所有请求
-        registry.addInterceptor(userActiveInterceptor())
-                .addPathPatterns("/user/fans/follow");
+//        registry.addInterceptor(userActiveInterceptor())
+//                .addPathPatterns("/user/fans/follow");
         registry.addInterceptor(uploadFileInterceptor())
                 .addPathPatterns("/fs/uploadFace")
                 .addPathPatterns("/fs/uploadSomeFiles");

@@ -104,9 +104,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void updateAppointToPublish() {
         articleMapperCustom.updateAppointToPublish();
-
-
-
     }
 
     @Transactional(rollbackFor = {Exception.class})
